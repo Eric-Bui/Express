@@ -11,6 +11,10 @@ td {
 	position: absolute;
 }
 
+.enMoney::after {
+	content: ' đ';
+}
+
 //page not-found 404
 #notfound {
 	position: relative;
@@ -80,11 +84,4 @@ td {
 	.notfound .notfound-404 h1 {
 		font-size: 120px;
 	}
-}
-dada {
-	background-color: white;
-}
-
-dadad {
-	background-color: white;
 }

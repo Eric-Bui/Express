@@ -1,8 +1,7 @@
-node_modules
-.vscode
+node_modules/
+.vscode/
 /dist
-public/css/*.min.css
-public/css/*.scss
-public/js/*.min.js
+public/
 package-lock.json
+#The file containing enviroment variables
 .env

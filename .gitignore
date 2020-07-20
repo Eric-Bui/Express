@@ -1,7 +1,5 @@
 node_modules/
 .vscode/
 /dist
-public/
 package-lock.json
 #The file containing enviroment variables
-.env

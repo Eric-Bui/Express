@@ -1,1 +1,8 @@
 node_modules
+.vscode
+/dist
+public/css/*.min.css
+public/css/*.scss
+public/js/*.min.js
+package-lock.json
+.env

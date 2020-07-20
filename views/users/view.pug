@@ -1,0 +1,11 @@
+extends ../layouts/common
+
+block content
+	h1 View User
+		p
+			b.mr-3 Name
+			span= user.fullname
+		p
+			b.mr-3 Avatar
+			span
+				img(src=user.avatar, width="200")

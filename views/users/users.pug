@@ -1,0 +1,34 @@
+extends ../layouts/common
+
+block content
+	.container.d-flex.justify-content-between.align-items-center
+		a(href='/users/create' class="btn btn-info" ) New User
+		form(action='/users/search', method='GET' class="form-group d-flex pt-4")
+			input(type='text', name='q' class="form-control mr-1" value=values )
+			button(class="btn btn-primary") Search
+	.container-fluid.pt-0
+		.row
+			.col-sm-12
+				.card
+					.table-responsive
+					table.table
+						thead
+							tr.bg-light-extra
+								th #
+								th Avatar
+								th Name
+								th Email
+								th Action
+						tbody
+							-let i=1;
+							each user in users
+								tr
+									td=i++
+									td 
+										img(src=user.avatar, width="40")
+									td=user.fullname
+									td=user.username
+									td
+										a.btn.btn-success(href='/users/' + user.id) View
+										a.btn.btn-warning.mx-3(href='/users/' + user.id) Edit
+										a.btn.btn-danger(href='/users/' + user.id) Delete

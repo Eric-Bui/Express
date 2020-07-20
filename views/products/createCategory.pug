@@ -1,0 +1,23 @@
+extends ../layouts/common
+
+block content
+
+	h1.pl-5 Create Category
+
+	if errors
+		each error in errors
+			.alert.alert-danger= error
+	.container
+		form(action="", method="POST", enctype="multipart/form-data")
+			.form-group
+				label(for="name") Name Category
+				input(name="name" type="text" class="form-control w-50" )
+			.form-group
+				label(for="image_link") Image_link
+				input(name="image_link" id="image" type="file" class="form-control-file w-50" )
+				span
+					img(src="", alt="")
+			button(class="btn btn-primary mt-3" ) Create
+		.row
+		.col-sm-12
+			.preview-images

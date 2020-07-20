@@ -1,0 +1,16 @@
+extends ../layouts/common
+
+block content
+	if errors
+			each error in errors
+				.w-50.alert.alert-danger.m-auto= error
+	h2 Login
+	.d-flex.justify-content-center.align-items-center.h-75
+		form.w-50(method="POST", enctype="multipart/form-data x-www-urlencoded")
+			.form-group
+				label(for="username") Username
+				input(name="username"  type="text" class="form-control", value=values ? values.username : '' )
+			.form-group
+				label(for="password") Password
+				input(name="password" type="password" class="form-control", value=values ? values.password : '' )
+			button(class="btn btn-primary mt-3" ) Login

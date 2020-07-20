@@ -1,0 +1,58 @@
+html
+	head
+		meta(charset='UTF-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+		link(rel='stylesheet', href="/css/custom.min.css" )
+		link(rel='stylesheet', href="/css/style.css" )
+		link(rel='stylesheet', href="/css/font-awesome.min.css")
+		link(rel='stylesheet', href="/css/blue.css" )
+	body
+		.loader
+		#main-wrapper
+			header.topbar
+				nav.navbar.navbar-expand-lg.top-navbar
+					#navbarNavDropdown.collapse.navbar-collapse
+						ul.navbar-nav.mr-auto.mt-md-0
+							li.nav-item
+								a.nav-link.text-light Milcash
+						if user
+							ul.navbar-nav
+								li.nav-item.dropdown
+									a#navbarDropdownMenuLink.nav-link.dropdown-toggle.text-light(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+										img(src=user.avatar, width="40")
+										span.ml-3=user.fullname
+									.dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+										a.dropdown-item(href='/auth/logout') Logout
+										a.dropdown-item(href='#') Another action
+										a.dropdown-item(href='#') Something else here
+
+			if user
+				aside.left-sidebar
+					.scroll-sidebar
+						nav.sidebar-nav
+							ul#sidebarnav
+								li
+									a.waves-effect(href='/')
+										i.fa.fa-clock-o.m-r-10(aria-hidden='true')
+										| Dashboard
+								li
+									a.waves-effect(href='/users')
+										i.fa.fa-user.m-r-10(aria-hidden='true')
+										| Members
+								li
+									a.waves-effect(href='/products')
+										i.fa.fa-table.m-r-10(aria-hidden='true')
+										| Products
+								li
+									a.waves-effect(href='map-google.html')
+										i.fa.fa-globe.m-r-10(aria-hidden='true')
+										| Google Map
+			.page-wrapper
+				block content
+				footer.footer.text-center
+					small Copyright © Your Website
+			script(src='/js/jquery-3.5.1.min.js')
+			script(src='/js/popper.min.js')
+			script(src='/js/bootstrap.min.js')
+			script(src='/js/main.js')

@@ -1,0 +1,104 @@
+extends ../layouts/common
+
+block content
+	.container.d-flex.justify-content-between.align-items-center
+		a(href='/products/createProduct' class="btn btn-info" ) New Product
+		form(action='/products/search', method='GET' class="form-group d-flex pt-4")
+			input(type='text', name='q' class="form-control" value=values )
+			button(class="btn btn-primary ml-1") Search
+	.container-fluid.pt-0
+		.row
+			.col-sm-12
+				.card
+					.table-responsive
+					table.table
+						thead
+							tr.bg-light-extra
+								th #
+								th Image
+								th Name
+								th Price
+								th Active
+								th Action
+						tbody
+							-let i=1;
+							each product in products
+								tr
+									td=i++
+									td 
+										each image in product.images
+											img(src=image.url, width="40")
+									td=product.name
+									
+									td.currency=parseInt(product.price)
+									td
+										i.text-blue.fa.fa-check(aria-hidden='true')
+									td
+										a.btn.btn-success(href='/products/view/' + product._id) View
+										a.btn.btn-warning.mx-3(href='/products/edit/' + product._id) Edit
+										a.btn.btn-danger(href='/products/delete/' + product._id) Delete
+	nav(aria-label='Page navigation example')
+		if pages > 0
+			ul.pagination.justify-content-center
+				if current == 1
+					li.page-item.disabled
+						a.page-link(href='#') First
+				else
+					li.page-item
+						a.page-link(href='/products?page=1') First
+				-let i = Number(current) > 5 ? Number(current) - 4 : 1;
+				if i !== 1
+					li.page-item.disabled
+						a.page-link(href='/products?page=1') ...
+				while i <= Number(current) + 4 && i <= pages
+					if i == current
+						li.page-item.active
+							a.page-link()=i
+					else
+						li.page-item
+							a.page-link(href='/products?page=' + i)=i
+					if i == Number(current) + 4 && i < pages
+						li.page-item.disabled
+							a.page-link(href='/products?page=1') ...
+					-i++
+				if current == pages
+					li.page-item.disabled
+						a.page-link(href='/products?page=' + pages) Last
+				else
+					li.page-item
+						a.page-link(href='/products?page=' + pages) Last
+	
+	//- search 
+	nav(aria-label='Page navigation example')
+	if searchPages > 0
+		ul.pagination.justify-content-center
+			if current == 1
+				li.page-item.disabled
+					a.page-link(href='#') First
+			else
+				li.page-item
+					a.page-link(href='/products/search?q='+ values +'&page=1') First
+			-let i = Number(current) > 5 ? Number(current) - 4 : 1;
+			if i !== 1
+				li.page-item.disabled
+					a.page-link() ...
+			while i <= Number(current) + 4 && i <= searchPages
+				if i == current
+					li.page-item.active
+						a.page-link()=i
+				else
+					li.page-item
+						a.page-link(href='/products/search?q='+ values +'&page=' + i)=i
+				if i == Number(current) + 4 && i < searchPages
+					li.page-item.disabled
+						a.page-link(href='/products/search?page=1') ...
+				-i++
+			if current == searchPages
+				li.page-item.disabled
+					a.page-link() Last
+			else
+				li.page-item
+					a.page-link(href='/products/search?q='+ values +'&page=' + searchPages) Last
+	
+
+

@@ -1,0 +1,32 @@
+extends ../layouts/common
+
+block content
+
+	h1.pl-5 Create Product
+
+	if errors
+		each error in errors
+			.alert.alert-danger= error
+	.container
+		form(action="/products/createProduct", method="POST", enctype="multipart/form-data")
+			.form-group.d-flex.justify-content-between.align-items-center.w-50
+				span.flex-grow-1
+					label.d-block(for="name") Category
+					select.custom-select(name="caterories")
+						each category in categories
+							option(value=category._id)=category.name
+				a(href='/products/createCategory' class="btn btn-info ml-1" style="margin-top:30px" ) New Category
+			.form-group.mt-4
+				label(for="name") Name Product
+				input(name="name" type="text" class="form-control w-50" )
+			.form-group
+				label(for="price") Price
+				input(name="price" type="text" class="form-control w-50" )
+			.form-group
+				label(for="image") Image
+				input(name="image" id="image" type="file" multiple="multiple" class="form-control-file w-50" )
+			button.button#demo(class="btn btn-primary mt-3" ) Add
+		hr
+		.row
+		.col-sm-12
+			.preview-images

@@ -16,6 +16,7 @@ const sessionMiddleware = require("./middlewares/session.middleware");
 const jwtMiddlware = require("./middlewares/jwt.middleware");
 
 const Products = require("./models/products/products.model");
+const Users = require("./models/users/users.model");
 
 const PORT = process.env.PORT || 3000;
 
@@ -37,6 +38,16 @@ app.post("/api/products", (req, res) => {
       res.json({ Error: err });
     } else {
       res.json(products);
+    }
+  });
+});
+
+app.post("/api/users", (req, res) => {
+  Users.find((err, users) => {
+    if (err) {
+      res.json({ Error: err });
+    } else {
+      res.json(users);
     }
   });
 });

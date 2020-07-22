@@ -92,6 +92,7 @@ module.exports.createProduct = async (req, res) => {
 module.exports.postcreateProduct = async (req, res) => {
   const uploader = async (path) =>
     await Multicloudinary.uploads(path, "Images");
+  console.log(uploader);
   if (req.method === "POST") {
     const urls = await [];
     const files = req.files;
@@ -134,13 +135,55 @@ module.exports.gotoUpdate = async (req, res) => {
 };
 
 module.exports.update = async (req, res) => {
-  await Products.findByIdAndUpdate(
-    req.params.id,
-    { $set: { name: req.body.name, price: req.body.price } },
-    { useFindAndModify: false }
-  ).then((doc) => {
-    res.redirect("/products");
-  });
+  if (req.files.length == 0) {
+    await Products.findByIdAndUpdate(
+      req.params.id,
+      { $set: { name: req.body.name, price: req.body.price } },
+      { useFindAndModify: false }
+    ).then(() => {
+      res.redirect("/products");
+    });
+  } else {
+    const id = req.params.id;
+    //delete images current
+    await Products.findById(id, (err, data) => {
+      if (err) throw err;
+      else {
+        const arrImages = data.images;
+        for (let i = 0; i < arrImages.length; i++) {
+          let id = arrImages[i].id;
+          cloudinary.v2.uploader.destroy(id);
+        }
+      }
+    });
+    //upload new images
+    const uploader = async (path) =>
+      await Multicloudinary.uploads(path, "Images");
+    if (req.method === "POST") {
+      const urls = await [];
+      const files = req.files;
+      for (const file of files) {
+        const { path } = file;
+        const newPath = await uploader(path);
+        urls.push(newPath);
+      }
+      Products.updateOne(
+        { _id: id },
+        {
+          name: req.body.name,
+          price: req.body.price,
+          images: urls,
+        },
+        (err) => {
+          if (err) {
+            res.json({ Mgs: err });
+          } else {
+            res.redirect("/products");
+          }
+        }
+      );
+    }
+  }
 };
 
 module.exports.delete = async (req, res) => {

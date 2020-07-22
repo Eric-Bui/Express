@@ -41,17 +41,6 @@ app.post("/api/products", (req, res) => {
     }
   });
 });
-
-app.post("/api/users", (req, res) => {
-  Users.find((err, users) => {
-    if (err) {
-      res.json({ Error: err });
-    } else {
-      res.json(users);
-    }
-  });
-});
-
 //routes
 app.get("/", jwtMiddlware.jwt, (req, res) => {
   res.render("index", {

@@ -36,7 +36,19 @@ block content
 									td
 										a.btn.btn-success(href='/products/view/' + product._id) View
 										a.btn.btn-warning.mx-3(href='/products/edit/' + product._id) Edit
-										a.btn.btn-danger(href='/products/delete/' + product._id) Delete
+										a.text-white.btn.btn-danger(data-toggle='modal',data-target='#exampleModal') Delete
+										#exampleModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+											.modal-dialog
+												.modal-content
+													.modal-header
+														h5#exampleModalLabel.modal-title Delete Product
+														button.close(type='button', data-dismiss='modal', aria-label='Close')
+															span(aria-hidden='true') ×
+													.modal-body
+														| Are You Sure?
+													.modal-footer
+														a.btn.btn-secondary.bg-light(type='button', data-dismiss='modal') Close
+														a.btn.btn-danger(href='/products/delete/' + product._id) Delete
 	nav(aria-label='Page navigation example')
 		if pages > 0
 			ul.pagination.justify-content-center

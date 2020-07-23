@@ -1550,18 +1550,7 @@ ul.list-style-none li a:hover {
 textarea {
   resize: none;
 }
-.form-control {
-  color: #54667a;
-  min-height: 38px;
-  display: initial;
-}
-.form-control-sm {
-  min-height: 20px;
-}
-.form-control:disabled,
-.form-control[readonly] {
-  opacity: 0.7;
-}
+
 .custom-control-input:focus ~ .custom-control-indicator {
   box-shadow: none;
 }

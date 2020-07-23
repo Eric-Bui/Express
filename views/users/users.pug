@@ -26,8 +26,8 @@ block content
 									td=i++
 									td 
 										img(src=user.avatar, width="40")
-									td=user.fullname
-									td=user.username
+									td=user.name
+									td=user.email
 									td
 										a.btn.btn-success(href='/users/' + user.id) View
 										a.btn.btn-warning.mx-3(href='/users/' + user.id) Edit

@@ -92,7 +92,6 @@ module.exports.createProduct = async (req, res) => {
 module.exports.postcreateProduct = async (req, res) => {
   const uploader = async (path) =>
     await Multicloudinary.uploads(path, "Images");
-  console.log(uploader);
   if (req.method === "POST") {
     const urls = await [];
     const files = req.files;

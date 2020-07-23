@@ -10,6 +10,7 @@ const userRoute = require("./routes/user.route");
 const authRoute = require("./routes/auth.route");
 const productRoute = require("./routes/product.route");
 const cartRoute = require("./routes/cart.route");
+const apiUserRoute = require("./routes/api.user.route");
 
 const authMiddleware = require("./middlewares/auth.middleware");
 const sessionMiddleware = require("./middlewares/session.middleware");
@@ -52,6 +53,8 @@ app.use("/users", jwtMiddlware.jwt, userRoute);
 app.use("/products", jwtMiddlware.jwt, productRoute);
 app.use("/auth", authRoute);
 app.use("/cart", cartRoute);
+
+app.use("/api/users", apiUserRoute);
 
 app.use((req, res) => {
   res.status(404).render("page-error");

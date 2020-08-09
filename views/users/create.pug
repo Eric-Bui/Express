@@ -10,11 +10,11 @@ block content
 
 	form.w-50(action="/users/create", method="POST", enctype="multipart/form-data")
 		.form-group
-			label(for="fullname") Fullname
-			input#name.form-control(name="fullname", type="text", value=values ? values.fullname : "")
+			label(for="name") Name
+			input#name.form-control(name="name", type="text", value=values ? values.name : "")
 		.form-group
-			label(for="username") Username
-			input#name.form-control(name="username", type="text", value=values ? values.username : "")
+			label(for="email") Email
+			input#name.form-control(name="email", type="text", value=values ? values.email : "")
 		.form-group
 			label(for="password") Password
 			input#phone.form-control(name="password", type="password", value=values ? values.password : "")

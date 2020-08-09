@@ -1,11 +1,11 @@
 const db = require("../db");
-const shortid = require("shortid");
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 
 const cloudinary = require("cloudinary");
 require("../handlers/mongo");
 const Users = require("../models/users/users.model");
+const nodemailer = require("nodemailer");
 
 module.exports.index = (req, res) => {
   Users.find((err, data) => {
@@ -62,6 +62,33 @@ module.exports.postCreate = async (req, res) => {
       user.save((err, user) => {
         res.send(user);
       });
+    }
+  });
+};
+
+module.exports.sendEmail = (req, res) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "buitheanh1990@gmail.com",
+      pass: "lgesuxvcucenwrki",
+    },
+  });
+
+  const mailOptions = {
+    from: "buitheanh1990@gmail.com",
+    to: "buitheanh1990@gmail.com",
+    subject: "Test mail",
+    text: "Enter the detail here",
+    html: "<b>This contains the html<b>",
+  };
+
+  //Nodemailer SendMail
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Email sent :" + info.response);
     }
   });
 };

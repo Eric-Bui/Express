@@ -46,7 +46,7 @@ module.exports.create = (req, res) => {
 };
 
 module.exports.postCreate = async (req, res) => {
-  await Users.findOne({ username: req.body.username }, (err, user) => {
+  await Users.findOne({ email: req.body.email }, (err, user) => {
     if (user) {
       res.render("users/create", {
         errors: ["Username has been used"],
@@ -59,17 +59,23 @@ module.exports.postCreate = async (req, res) => {
   const sessionId = shortid.generate();
   const day = date.format(new Date(), "DD-MM-YYYY");
   const fileName = day + "_" + sessionId;
-  let path = req.file.path;
+  if (req.file) {
+    var path = req.file.path;
+  } else {
+    var path =
+      "https://res.cloudinary.com/micash/image/upload/v1595129486/sample.jpg";
+  }
   const avatar = await cloudinary.v2.uploader.upload(path, {
     public_id: `Avatar/${fileName}`,
     tags: `Avatar`,
   });
 
   const user = new Users();
-  user.fullname = req.body.fullname;
-  user.username = req.body.username;
+  user.name = req.body.name;
+  user.email = req.body.email;
   user.password = hashedPassword;
   user.avatar = avatar.url;
+  user.dayCreate = day;
   user.save();
   res.redirect("/users");
 };

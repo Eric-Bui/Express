@@ -8,10 +8,10 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.postlogin = async (req, res) => {
-  const user = await Users.findOne({ username: req.body.username }).exec();
+  const user = await Users.findOne({ email: req.body.email }).exec();
   if (user == null) {
     res.render("auth/login", {
-      errors: ["user does not exist"],
+      errors: ["email does not exist"],
       values: req.body,
     });
 

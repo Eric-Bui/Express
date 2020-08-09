@@ -1,10 +1,10 @@
 module.exports.postCreate = (req, res, next) => {
   const errors = [];
-  if (!req.body.fullname) {
+  if (!req.body.name) {
     errors.push("Name is required.");
   }
-  if (!req.body.username) {
-    errors.push("Username is required.");
+  if (!req.body.email) {
+    errors.push("Email is required.");
   }
   if (!req.body.password) {
     errors.push("Password is required.");

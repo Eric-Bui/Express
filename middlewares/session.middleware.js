@@ -1,5 +1,5 @@
 const shortid = require("shortid");
-const db = require("../db");
+const Cart = require("../models/cart/cart.model");
 
 module.exports = (req, res, next) => {
   if (!req.signedCookies.sessionId) {
@@ -9,6 +9,10 @@ module.exports = (req, res, next) => {
       httpOnly: true,
       expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000), // 1 week
     });
+    const cart = new Cart();
+    cart.sessionId = sessionId;
+    cart.save();
+    console.log(cart);
   }
   next();
 };

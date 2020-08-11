@@ -3,10 +3,14 @@ const router = express.Router();
 
 const controller = require("../controllers/api.controller");
 
-router.post("/products", controller.products);
+router.get("/products", controller.products);
 
-router.post("/categories", controller.categories);
+router.get("/categories", controller.categories);
 
 router.get("/products/:id", controller.productbyId);
+
+router.get("/cart", controller.cart);
+
+router.post("/cart/:productId", controller.addToCart);
 
 module.exports = router;

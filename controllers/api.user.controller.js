@@ -1,4 +1,3 @@
-const db = require("../db");
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
 
@@ -6,40 +5,6 @@ const cloudinary = require("cloudinary");
 require("../handlers/mongo");
 const Users = require("../models/users/users.model");
 const nodemailer = require("nodemailer");
-
-module.exports.index = (req, res) => {
-  Users.find((err, data) => {
-    if (err) throw err;
-    res.render("users/users", {
-      users: data,
-    });
-  });
-};
-
-module.exports.search = (req, res) => {
-  const q = req.query.q;
-  const matchedUsers = db
-    .get("users")
-    .value()
-    .filter((user) => {
-      return user.name.toLowerCase().indexOf(q.toLowerCase()) !== -1;
-    });
-
-  res.render("users/users", {
-    users: matchedUsers,
-    values: q,
-  });
-};
-
-module.exports.view = async (req, res) => {
-  await Users.findById(req.params.id, (err, data) => {
-    if (err) {
-      res.json({ Mgs: err });
-    } else {
-      res.render("users/view", { user: data });
-    }
-  });
-};
 
 module.exports.create = (req, res) => {
   res.render("users/create");

@@ -4,7 +4,9 @@ const upload = require("../handlers/multer");
 
 const controller = require("../controllers/api.user.controller");
 
-router.post("/create", controller.postCreate);
+router.post("/login", controller.login);
+
+router.post("/signup", controller.signup);
 
 router.post("/send", controller.sendEmail);
 

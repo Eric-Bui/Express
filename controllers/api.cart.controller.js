@@ -18,6 +18,7 @@ module.exports.addToCart = async (req, res) => {
   const sessionId = req.signedCookies.sessionId;
 
   const client = await Cart.findOne({ sessionId: sessionId });
+  console.log(client);
   const cart = new Items(client ? client : {});
   Products.findById(productId, (err, product) => {
     if (err) {

@@ -1,19 +1,39 @@
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const cloudinary = require("cloudinary");
 require("../handlers/mongo");
 const Users = require("../models/users/users.model");
 const nodemailer = require("nodemailer");
+const handlebars = require("handlebars");
+const fs = require("fs");
 
-module.exports.create = (req, res) => {
-  res.render("users/create");
+module.exports.login = async (req, res) => {
+  const user = await Users.findOne({ email: req.body.email }).exec();
+  if (user == null) {
+    res.json({ err: "Tên đăng nhập không đúng!" });
+    return;
+  }
+  try {
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+      res.cookie("token", token);
+      res.json(user);
+    } else {
+      res.send({ err: "Mật khẩu không đúng!" });
+      return;
+    }
+  } catch {
+    res.status(500).send();
+  }
 };
 
-module.exports.postCreate = async (req, res) => {
+module.exports.signup = async (req, res) => {
   await Users.findOne({ email: req.body.email }, async (err, user) => {
     if (user) {
-      res.send("Username has been used");
+      res.json({ err: "Tên đăng nhập đã tồn tại!" });
       return;
     } else {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -25,35 +45,56 @@ module.exports.postCreate = async (req, res) => {
       user.password = hashedPassword;
       user.dayCreate = day;
       user.save((err, user) => {
-        res.send(user);
+        res.json(user);
       });
     }
   });
 };
 
-module.exports.sendEmail = (req, res) => {
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: "buitheanh1990@gmail.com",
-      pass: "lgesuxvcucenwrki",
-    },
-  });
-
-  const mailOptions = {
-    from: "buitheanh1990@gmail.com",
-    to: "buitheanh1990@gmail.com",
-    subject: "Test mail",
-    text: "Enter the detail here",
-    html: "<b>This contains the html<b>",
-  };
-
-  //Nodemailer SendMail
-  transporter.sendMail(mailOptions, (err, info) => {
+const readHTMLFile = function (path, callback) {
+  fs.readFile(path, { encoding: "utf-8" }, function (err, html) {
     if (err) {
-      console.log(err);
+      throw err;
+      callback(err);
     } else {
-      console.log("Email sent :" + info.response);
+      callback(null, html);
     }
   });
+};
+
+module.exports.sendEmail = async (req, res) => {
+  const email = req.body.email;
+  const user = await Users.findOne({ email: email });
+  if (!user) {
+    res.json({ err: "Địa chỉ email không tồn tại!" });
+  } else {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+
+    //PASSWORD=lgesuxvcucenwrki
+    readHTMLFile("./public/pages/email.html", (err, html) => {
+      const template = handlebars.compile(html);
+      const htmlToSend = template();
+      const mailOptions = {
+        from: "<noreply@milcah.com>",
+        to: user.email,
+        subject: "Cài lại mật khẩu Milcah của bạn",
+        html: htmlToSend,
+      };
+
+      //Nodemailer SendMail
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          res.json(err);
+        } else {
+          console.log("Email sent :" + info.response);
+        }
+      });
+    });
+  }
 };

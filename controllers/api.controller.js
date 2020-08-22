@@ -10,6 +10,17 @@ module.exports.products = (req, res) => {
     }
   });
 };
+
+module.exports.productbyId = (req, res) => {
+  Products.findById(req.params.id, (err, product) => {
+    if (err) {
+      res.json({ Mgs: err });
+    } else {
+      res.json(product);
+    }
+  });
+};
+
 module.exports.categories = (req, res) => {
   Categories.find((err, categories) => {
     if (err) {
@@ -20,12 +31,19 @@ module.exports.categories = (req, res) => {
   });
 };
 
-module.exports.productbyId = (req, res) => {
-  Products.findById(req.params.id, (err, product) => {
+module.exports.categoriesbyId = (req, res) => {
+  idCat = req.params.id;
+  Categories.findById(idCat, (err, category) => {
     if (err) {
-      res.json({ Mgs: err });
+      res.json(err);
     } else {
-      res.json(product);
+      Products.find({ idCat: idCat }, (err, products) => {
+        if (err) {
+          res.json(err);
+        } else {
+          res.json({ category, products });
+        }
+      });
     }
   });
 };

@@ -26,27 +26,26 @@ html
 										a.dropdown-item(href='/auth/logout') Logout
 										a.dropdown-item(href='#') Another action
 										a.dropdown-item(href='#') Something else here
-			if user
-				aside.left-sidebar
-					.scroll-sidebar
-						nav.sidebar-nav
-							ul#sidebarnav
-								li
-									a.waves-effect(href='/')
-										i.fa.fa-clock-o.m-r-10(aria-hidden='true')
-										| Dashboard
-								li
-									a.waves-effect(href='/users')
-										i.fa.fa-user.m-r-10(aria-hidden='true')
-										| Members
-								li
-									a.waves-effect(href='/products')
-										i.fa.fa-table.m-r-10(aria-hidden='true')
-										| Products
-								li
-									a.waves-effect(href='map-google.html')
-										i.fa.fa-globe.m-r-10(aria-hidden='true')
-										| Google Map
+			aside.left-sidebar
+				.scroll-sidebar
+					nav.sidebar-nav
+						ul#sidebarnav
+							li
+								a.waves-effect(href='/')
+									i.fa.fa-clock-o.m-r-10(aria-hidden='true')
+									| Dashboard
+							li
+								a.waves-effect(href='/users')
+									i.fa.fa-user.m-r-10(aria-hidden='true')
+									| Members
+							li
+								a.waves-effect(href='/products')
+									i.fa.fa-table.m-r-10(aria-hidden='true')
+									| Products
+							li
+								a.waves-effect(href='map-google.html')
+									i.fa.fa-globe.m-r-10(aria-hidden='true')
+									| Google Map
 			.page-wrapper
 				block content
 				footer.footer.text-center

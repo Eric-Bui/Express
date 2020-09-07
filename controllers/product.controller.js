@@ -75,7 +75,6 @@ module.exports.CreateCategory = async (req, res) => {
   const category = new Categories();
   category.name = req.body.name;
   category.image = image.secure_url;
-  category.arrProducts = [];
   category.save();
   res.redirect("/products/createProduct");
 };
@@ -91,7 +90,7 @@ module.exports.createProduct = async (req, res) => {
 
 module.exports.postcreateProduct = async (req, res) => {
   const uploader = async (path) =>
-    await Multicloudinary.uploads(path, "Images");
+    await Multicloudinary.uploads(path, "Products");
   if (req.method === "POST") {
     const urls = await [];
     const files = req.files;

@@ -16,7 +16,9 @@ module.exports.productbyId = (req, res) => {
     if (err) {
       res.json({ Mgs: err });
     } else {
-      res.json(product);
+      Products.find({ idCat: product.idCat }, (err, arrProduct) => {
+        res.json({ product, arrProduct });
+      });
     }
   });
 };

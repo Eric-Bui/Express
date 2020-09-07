@@ -5,10 +5,44 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cài lại mật khẩu</title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
 </head>
+<style>
+	header {
+		margin: 20px 0;
+	}
+
+	header .header {
+		height: 80px;
+		border-bottom: 1px solid #ced4da;
+	}
+
+	main .container .content {
+		width: 80%;
+		margin: 0 auto;
+	}
+
+	main .container .content .title {
+		margin-bottom: 30px;
+	}
+</style>
 
 <body>
-
+	<header>
+		<div class="header">
+			<img src="../images/logo.png" alt="">
+		</div>
+	</header>
+	<main>
+		<div class="container">
+			<div class="content">
+				<p class="title">Xin chào <span>{{ username }}</span></p>
+				<p>Chúng tôi đã nhận được yêu cầu của bạn</p>
+				<p>Vui lòng nhấn vào đường dẫn này để lấy lại mật khẩu</p>
+				<a href="{{ link }}">{{ link }}</a>
+			</div>
+		</div>
+	</main>
 </body>
 
 </html>

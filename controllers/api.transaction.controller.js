@@ -7,6 +7,12 @@ var date = new Date();
 var querystring = require("qs");
 var sha256 = require("sha256");
 const Order = require("../models/transaction/order.model");
+//send mail
+require("dotenv").config();
+const nodemailer = require("nodemailer");
+const handlebars = require("handlebars");
+const fs = require("fs");
+const $ = require("jquery");
 
 exports.getTransaction = (req, res) => {
   const orderId = req.params.orderId;
@@ -64,6 +70,17 @@ exports.postTransaction = async (req, res) => {
       }
     );
   }
+};
+
+//send mail payment_method transfer
+const readHTMLFile = function (path, callback) {
+  fs.readFile(path, { encoding: "utf-8" }, function (err, html) {
+    if (err) {
+      throw err;
+    } else {
+      callback(null, html);
+    }
+  });
 };
 
 exports.create_payment = async (req, res) => {
@@ -158,7 +175,47 @@ exports.create_payment = async (req, res) => {
     //res.redirect(vnpUrl)
   }
   if (payment_method == 2) {
-    console.log("chuyển khoản");
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+    readHTMLFile("./public/pages/transfer.hbs", (err, html) => {
+      handlebars.registerHelper("formatAmount", function () {
+        return amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+      });
+
+      const template = handlebars.compile(html);
+      let feeship = true;
+      if (user.totalPrice < 500000) {
+        feeship = false;
+      }
+      const replacements = {
+        name: name,
+        feeship: feeship,
+        amount: amount,
+        cart: user.cart,
+      };
+      const htmlToSend = template(replacements);
+      const mailOptions = {
+        from: "<noreply@milcah.com>",
+        to: email,
+        subject: "Thông tin chuyển khoản mua hàng",
+        html: htmlToSend,
+      };
+
+      //Nodemailer SendMail
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) {
+          res.json(err);
+        } else {
+          console.log("Email sent :" + info.response);
+        }
+      });
+    });
+    res.json(transaction);
   }
   if (payment_method == 1) {
     res.json(transaction);

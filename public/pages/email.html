@@ -5,44 +5,39 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Cài lại mật khẩu</title>
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
 </head>
-<style>
-	header {
-		margin: 20px 0;
-	}
-
-	header .header {
-		height: 80px;
-		border-bottom: 1px solid #ced4da;
-	}
-
-	main .container .content {
-		width: 80%;
-		margin: 0 auto;
-	}
-
-	main .container .content .title {
-		margin-bottom: 30px;
-	}
-</style>
 
 <body>
-	<header>
-		<div class="header">
-			<img src="../images/logo.png" alt="">
-		</div>
-	</header>
-	<main>
-		<div class="container">
-			<div class="content">
-				<p class="title">Xin chào <span>{{ username }}</span></p>
-				<p>Chúng tôi đã nhận được yêu cầu của bạn</p>
-				<p>Vui lòng nhấn vào đường dẫn này để lấy lại mật khẩu</p>
-				<a href="{{ link }}">{{ link }}</a>
+
+	<div class="container"
+		style="width: 600px; margin: 0 auto; background : #f8f8f8; font-family: 'Open sans',sans-serif; font-size: 14px; color: #303030 !important;">
+		<div style="width: 460px; margin: 0 auto;">
+			<div class="header" style="height: 120px; border-bottom: 1px solid #bdbdbd;">
+				<div style="height: 120px; ">
+					<a href="" style="height: 100%; display: flex; ">
+						<img style="width: 140px; height: auto; margin: auto 0;"
+							src="https://res.cloudinary.com/micash/image/upload/v1599535869/Avatar/logo_bxrjnn.png"
+							alt="">
+					</a>
+				</div>
+			</div>
+			<div style="margin-top: 30px;">
+				<div class="title">Xin chào <a href="mailto:{{ username }}"
+						style="text-decoration: none;">{{ username }}</a></div>
+				<div style="margin: 30px 0;">Chúng tôi đã nhận được yêu cầu của bạn</div>
+				<div>Vui lòng nhấn vào đường dẫn này để lấy lại mật khẩu</div>
+				<div style="margin-top: 30px; padding-bottom: 50px;">
+					<a href="{{ link }}" style="text-decoration: none;">{{ link }}</a>
+				</div>
 			</div>
 		</div>
-	</main>
+	</div>
+	<div style="width: 460px; margin: 0 auto;">
+		<small style="display: block; margin: 10px; text-align: center;">@ 2020 milcah - lê lợi 1, bàu hàm 2, thống
+			nhất, đồng
+			nai</small>
+		<small style="display: block; text-align: center;"> 0938547691</small>
+	</div>
 </body>
 
 </html>

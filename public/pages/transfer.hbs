@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Thông tin chuyển khoản</title>
+
+</head>
+
+<body>
+
+	<div class="container"
+		style="width: 900px; margin: 0 auto; background : #f8f8f8; font-family: 'Open sans',sans-serif; font-size: 14px; color: #303030 !important;">
+		<div style="width: 760px; margin: 0 auto;">
+			<div class="header" style="height: 120px; border-bottom: 1px solid #bdbdbd;">
+				<div style="height: 120px; ">
+					<a href="" style="height: 100%; display: flex; ">
+						<img style="width: 140px; height: auto; margin: auto 0;"
+							src="https://res.cloudinary.com/micash/image/upload/v1599535869/Avatar/logo_bxrjnn.png"
+							alt="">
+					</a>
+				</div>
+			</div>
+			<div style="margin-top: 30px;">
+				<div class="title">Xin chào <strong>{{ name }}</strong></div>
+				<div style="margin: 30px 0;">Cảm ơn bạn đã mua hàng</div>
+				<div class="">
+					<table style="width: 100%;">
+						<thead>
+							<tr>
+								<th></th>
+								<th style="border-bottom: 1px solid #bdbdbd;">Sản phẩm</th>
+								<th style="border-bottom: 1px solid #bdbdbd;">số lượng</th>
+								<th style="border-bottom: 1px solid #bdbdbd;">Giá</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{#each cart as |key val| }}
+							<tr style="border-bottom: 1px solid #bdbdbd;">
+								<td style="text-align: center; ">
+									<img style="width: 50px;" src="{{ key.item.images.[0].url }}">
+								</td>
+								<td style="text-align: center; border-bottom: 1px solid #bdbdbd;">{{ key.item.name }}
+								</td>
+								<td style="text-align: center; border-bottom: 1px solid #bdbdbd;">{{ key.qty }}</td>
+								<td style="text-align: center; border-bottom: 1px solid #bdbdbd;">
+									{{ key.item.price }} đ
+								</td>
+							</tr>
+							{{/each}}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td></td>
+								<td style="text-align: center; font-size: 15px;">
+									<div style="margin: 30px 0;">
+										Phí vận chuyển :
+									</div>
+								</td>
+								<td></td>
+								{{#if feeship}}
+								<td style="text-align: center;">0 đ</td>
+								{{else}}
+								<td style="text-align: center;">50,000 đ</td>
+								{{/if}}
+							</tr>
+							<tr>
+								<td></td>
+								<td style="text-align: center; font-size: 16px;">Tổng:</td>
+								<td></td>
+								<td style="font-weight: 600;text-align: center;">{{ formatAmount }} đ</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				<div style="margin: 50px 0 30px 0; font-size : 16px">Quý khách vui lòng chuyển khoản theo thông tin dưới
+					dây
+				</div>
+				<div style="margin-top: 30px;">
+					<ul style="font-size: 15px;">
+						<li>Tên tài khoản : <strong> PHẠM PHƯƠNG QUỲNH</strong></li>
+						<li style="margin: 15px;">Số tài khoản: <strong>087.100.4226566</strong></li>
+						<li>Ngân hàng: <strong>Vietcombank - CN Đông Đồng Nai</strong></li>
+					</ul>
+				</div>
+				<div style="margin: 50px 0 30px 0; font-size: 16px;">Nội dung chuyển khoản</div>
+				<ul style="font-size: 15px;">
+					<li>Ghi họ tên , số điện thoại người nhận</li>
+				</ul>
+				<div style="margin-top: 30px; padding-bottom: 50px;"><strong>Milcah</strong> chúc bạn có 1 ngày tốt
+					lành.
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="width: 760px; margin: 0 auto;">
+		<small style="display: block; margin: 10px; text-align: center;">@ 2020 milcah - lê lợi 1, bàu hàm 2, thống
+			nhất, đồng
+			nai</small>
+		<small style="display: block; text-align: center;"> 0938547691</small>
+	</div>
+</body>
+
+</html>

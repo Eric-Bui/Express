@@ -251,7 +251,10 @@ module.exports.login = async (req, res) => {
   try {
     if (await bcrypt.compare(req.body.password, admin.password)) {
       const token = jwt.sign({ _id: admin._id }, process.env.JWT_ADMIN);
-      res.cookie("token", token);
+      res.cookie("id_admin", token, {
+        signed: true,
+        expires: new Date(Date.now() + 60 * 60 * 5 * 1000), // 5h
+      });
       res.json({ admin, token });
     } else {
       res.send({ err: "Mật khẩu không đúng!" });
@@ -263,7 +266,6 @@ module.exports.login = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.clearCookie("token");
-  res.clearCookie("sessionId");
+  res.clearCookie("id_admin");
   res.json({ note: "success" });
 };

@@ -10,6 +10,8 @@ const transactionSchema = new mongoose.Schema({
   amount: Number,
   createDate: String,
   status: Number,
+  discount: Number,
+  feeship: Number,
   bankCode: String,
   payment_method: Number,
 });

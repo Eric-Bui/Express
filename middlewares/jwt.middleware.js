@@ -3,7 +3,7 @@ require("dotenv").config();
 const Users = require("../models/users/users.model");
 const Admin = require("../models/users/admin.model");
 
-module.exports.jwtClient = async (req, res, next) => {
+exports.jwtClient = async (req, res, next) => {
   if (req.cookies.token && req.headers) {
     const token = req.cookies.token;
 
@@ -14,14 +14,12 @@ module.exports.jwtClient = async (req, res, next) => {
         next();
       }
     });
-  } else {
-    return res.json(err);
   }
 };
 
-module.exports.jwtAdmin = async (req, res, next) => {
-  if (req.cookies && req.headers) {
-    const token = req.cookies.token;
+exports.jwtAdmin = async (req, res, next) => {
+  if (req.signedCookies.id_admin && req.headers) {
+    const token = req.signedCookies.id_admin;
     jwt.verify(token, process.env.JWT_ADMIN, async (err, authData) => {
       await Admin.findOne({ _id: authData }).exec();
       if (err) return res.json(err);
@@ -34,7 +32,7 @@ module.exports.jwtAdmin = async (req, res, next) => {
   }
 };
 
-module.exports.jwt = async (req, res, next) => {
+exports.jwt = async (req, res, next) => {
   if (req.cookies && req.headers) {
     const token = req.cookies.token;
 

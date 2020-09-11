@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema({
   payment_method: Number,
   totalPrice: Number,
   totalQty: Number,
+  amount: Number,
   createDate: String,
   status: Number,
 });

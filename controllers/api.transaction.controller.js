@@ -93,6 +93,8 @@ exports.create_payment = async (req, res) => {
   const description = req.body.description;
   const payment_method = req.body.payment_method;
   const dateCreate = req.body.createDate;
+  const discount = req.body.discount;
+  const feeship = req.body.feeship;
   const amount = req.body.amount;
 
   //tạo bảng order lưu sản phẩm checkout
@@ -105,6 +107,7 @@ exports.create_payment = async (req, res) => {
   order.totalPrice = user.totalPrice;
   order.totalQty = user.totalQty;
   order.createDate = dateCreate;
+  order.amount = amount;
   order.payment_method = payment_method;
   order.save();
 
@@ -118,6 +121,8 @@ exports.create_payment = async (req, res) => {
   transaction.description = description;
   transaction.payment_method = payment_method;
   transaction.createDate = dateCreate;
+  transaction.discount = discount;
+  transaction.feeship = feeship;
   transaction.amount = amount;
   await transaction.save();
 
@@ -188,13 +193,10 @@ exports.create_payment = async (req, res) => {
       });
 
       const template = handlebars.compile(html);
-      let feeship = true;
-      if (user.totalPrice < 500000) {
-        feeship = false;
-      }
       const replacements = {
         name: name,
         feeship: feeship,
+        discount: discount,
         amount: amount,
         cart: user.cart,
       };

@@ -1,5 +1,7 @@
 const Transaction = require("../models/transaction/transaction.model");
 const Order = require("../models/transaction/order.model");
+const Products = require("../models/products/products.model");
+const Items = require("../models/cart/items.model");
 
 const date = require("date-and-time");
 const bcrypt = require("bcrypt");
@@ -52,25 +54,48 @@ module.exports.login = async (req, res) => {
   if (user == null) {
     res.json({ err: "Tên đăng nhập không đúng!" });
     return;
-  }
-  try {
+  } else {
     if (await bcrypt.compare(req.body.password, user.password)) {
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-      //delete documents when not logged in
-      Users.findOneAndDelete({ sessionId: sessionId }).exec();
 
-      res.clearCookie("sessionId"); //delete cookies when not logged in
-
-      //set cookies form database when user logged
-      res.cookie("sessionId", user.sessionId, { signed: true, httpOnly: true });
-      res.cookie("token", token);
-      res.json(user);
+      //client before login
+      const cart = new Items(user ? user : {});
+      //check client exsits cart
+      Users.findOne({ sessionId: sessionId }, async (err, client) => {
+        if (client.cart) {
+          //delete documents when not logged in
+          Users.findOneAndDelete({ sessionId: sessionId }).exec();
+          for (const key in client.cart) {
+            const product = await Products.findById(key).exec();
+            cart.add(product, product.id, client.cart[key].qty);
+          }
+          Users.findOneAndUpdate(
+            { email: req.body.email },
+            {
+              $set: {
+                cart: cart.items,
+                totalQty: cart.totalQty,
+                totalPrice: cart.totalPrice,
+              },
+            },
+            { new: true },
+            (err, data) => {}
+          );
+        }
+        Users.findOneAndDelete({ sessionId: sessionId }).exec();
+        res.clearCookie("sessionId"); //delete cookies when not logged in
+        //set cookies form database when user logged
+        res.cookie("sessionId", user.sessionId, {
+          signed: true,
+          httpOnly: true,
+        });
+        res.cookie("token", token);
+        res.json(user);
+      });
     } else {
       res.send({ err: "Mật khẩu không đúng!" });
       return;
     }
-  } catch {
-    res.status(500).send();
   }
 };
 

@@ -8,7 +8,7 @@ exports.jwtClient = async (req, res, next) => {
     const token = req.cookies.token;
 
     jwt.verify(token, process.env.JWT_SECRET, async (err, authData) => {
-      await Users.findOne({ _id: authData }).exec();
+      //await Users.findOne({ _id: authData }).exec();
       if (err) return res.json(err);
       else {
         next();
@@ -21,7 +21,7 @@ exports.jwtAdmin = async (req, res, next) => {
   if (req.signedCookies.id_admin && req.headers) {
     const token = req.signedCookies.id_admin;
     jwt.verify(token, process.env.JWT_ADMIN, async (err, authData) => {
-      await Admin.findOne({ _id: authData }).exec();
+      //await Admin.findOne({ _id: authData }).exec();
       if (err) return res.json(err);
       else {
         next();
